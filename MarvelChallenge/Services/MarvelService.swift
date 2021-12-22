@@ -11,12 +11,14 @@ import Alamofire
 
 protocol MarvelService {
 // MARK: - EventsRequest
-    typealias EventsType = EventsMainRequest
+    typealias EventsType = EventDataWrapperModel
     typealias EventsHandler = (EventsType) -> Void
 
-    func fetchEvents(page: Int,
-                     completionHandler: @escaping EventsHandler,
-                     errorHandler: ((Error) -> Void)?)
+    func fetchEvents(
+        page: Int,
+        completionHandler: @escaping EventsHandler,
+        errorHandler: ((Error) -> Void)?
+    )
 }
 
 class MarvelServiceImp: MarvelService {
@@ -33,8 +35,12 @@ class MarvelServiceImp: MarvelService {
         return bodyDecoder
     }()
 
-// MARK: - public func
-    func fetchEvents(page: Int = 1, completionHandler: @escaping EventsHandler, errorHandler: ((Error) -> Void)? = nil) {
+    // MARK: - public func
+    func fetchEvents(
+        page: Int = 1,
+        completionHandler: @escaping EventsHandler,
+        errorHandler: ((Error) -> Void)? = nil
+    ) {
         let params = ["limit": limit, "offset": (page - 1) * limit]
 
         fetchApi(endpoint: "/events",
