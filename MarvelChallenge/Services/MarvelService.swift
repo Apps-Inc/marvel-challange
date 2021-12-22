@@ -10,7 +10,7 @@ import CryptoKit
 import Alamofire
 
 protocol MarvelService {
-    typealias RequestType = (Int) -> Void
+    typealias RequestType = (EventsMainRequest) -> Void
 
     func fetchEvents(limit: Int,
                      offset: Int,
@@ -47,28 +47,44 @@ class MarvelServiceImp: MarvelService {
         parameters["apikey"] = publicKey
         parameters["hash"] = hash
 
+        print( " asdasd")
+
         AF.request("\(baseUrl)\(endpoint)", parameters: parameters)
-            .validate(statusCode: 200..<300)
-            .responseDecodable(of: type, decoder: jsonDecoder, completionHandler: completionHandler)
-    }
-
-    func fetchEvents(limit: Int = LIMIT, offset: Int = OFFSET, completionHandler: @escaping RequestType ) {
-        let timeStamp = String(Date().hashValue)
-        let toHash = timeStamp + privateKey + publicKey
-        let hash = md5Hash(toHash)
-        let params = ["ts": timeStamp, "apikey": publicKey, "hash": hash]
-
-        AF.request("\(baseUrl)/events", parameters: params)
             .validate(statusCode: 200..<300)
             .response(completionHandler: { response in
                 debugPrint(response)
             })
-        
-//        fetchApi(endpoint: "/events", type: <#T##Decodable.Protocol#>, completionHandler: <#T##(DataResponse<Decodable, AFError>) -> Void#>)
+            .responseDecodable(of: type,
+                               decoder: jsonDecoder,
+                               completionHandler: completionHandler)
+    }
 
+    func fetchEvents(limit: Int = LIMIT, offset: Int = OFFSET, completionHandler: @escaping RequestType ) {
+        let params = ["limit": limit, "offset": offset]
+
+        fetchApi(endpoint: "/events",
+                 parameters: params,
+                 type: EventsMainRequest.self) { response in
+
+            if let err = response.error {
+                print(" errr")
+                print(err)
+                return
+            }
+
+            guard let data = response.value else {
+                print("null")
+                return
+            }
+
+            completionHandler(data)
+        }
     }
 
     func md5Hash(_ source: String) -> String {
-        return Insecure.MD5.hash(data: source.data(using: .utf8)!).map { String(format: "%02hhx", $0) }.joined()
+        return Insecure.MD5
+            .hash(data: source.data(using: .utf8)!)
+            .map { String(format: "%02hhx", $0) }
+            .joined()
     }
 }
