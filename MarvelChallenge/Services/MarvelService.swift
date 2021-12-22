@@ -10,7 +10,7 @@ import CryptoKit
 import Alamofire
 
 protocol MarvelService {
-    typealias RequestType = (EventsMainRequest) -> Void
+    typealias RequestType = (EventDataWrapperModel) -> Void
 
     func fetchEvents(limit: Int,
                      offset: Int,
@@ -33,10 +33,11 @@ class MarvelServiceImp: MarvelService {
         return bodyDecoder
     }()
 
-    private func fetchApi<T>(endpoint: String,
-                             parameters: [String: Any] = [:],
-                             type: T.Type = T.self,
-                             completionHandler: @escaping (AFDataResponse<T>) -> Void
+    private func fetchApi<T>(
+        endpoint: String,
+        parameters: [String: Any] = [:],
+        type: T.Type = T.self,
+        completionHandler: @escaping (AFDataResponse<T>) -> Void
     ) where T: Decodable {
         var parameters = parameters
         let timeStamp = String(Date().hashValue)
@@ -64,7 +65,7 @@ class MarvelServiceImp: MarvelService {
 
         fetchApi(endpoint: "/events",
                  parameters: params,
-                 type: EventsMainRequest.self) { response in
+                 type: EventDataWrapperModel.self) { response in
 
             if let err = response.error {
                 print(" errr")
