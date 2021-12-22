@@ -8,28 +8,6 @@ struct HomeView: View {
 
     @State var rowNumber = 1
 
-    /**
-     LazyVStack {
-     ForEach(0...5, id: \.self) {_ in
-     LazyHStack {
-     ForEach(0...3, id: \.self) { _ in
-     Rectangle()
-     .frame(width: 50, height: 50, alignment: .center)
-     .scaledToFill()
-     Spacer()
-     }
-     }
-     }
-     }
-     
-     */
-    /*
-    let columns = [
-        GridItem(.flexible()),
-        GridItem(.flexible()),
-        GridItem(.flexible())
-    ] */
-
     var columns: [GridItem] {
         var tmp = [GridItem]()
 
@@ -40,31 +18,57 @@ struct HomeView: View {
         return tmp
     }
 
-    /*
-    var columns: [GridItem] {
-        (1...rowNumber).map { GridItem(.flexible())  }
-    }
-     }
-     */
-
-    let data = (1...100).map { "Item \($0)" }
-
     var body: some View {
+
         NavigationView {
             ScrollView {
                 LazyVGrid(columns: columns, alignment: .center, spacing: 20) {
-                    ForEach(data, id: \.self) { item in
-                        Text(item)
+                    ForEach(viewModel.eventsList.indexed(), id: \.element.id) { (index, event) in
+                        Group {
+                            if rowNumber == 1 {
+                                CellInLineView(event: event)
+                            } else {
+                                CellCardView(event: event)
+                            }
+                        }
+                        .onAppear {
+                            viewModel.loadMoreIfNeeded(currentIndex: index)
+                        }
                     }
+                }
+                if viewModel.isLoading {
+                    ProgressView()
+
+                        .padding()
                 }
 
             }
+            .toolbar(content: {
+                ToolbarItemGroup(placement: .navigationBarLeading) {
+                    Text("Eventos")
+                }
+                ToolbarItemGroup(placement: .navigationBarTrailing) {
+                    if rowNumber == 1 {
+                        Button {
+                            rowNumber = 2
+                        } label: {
+                            Image(systemName: "square.grid.2x2")
+                        }
+                    } else {
+                        Button {
+                            rowNumber = 1
+                        } label: {
+                            Image(systemName: "list.triangle")
+                        }
+                    }
+                }
+            })
+            .navigationBarTitleDisplayMode(.inline)
         }
         .onAppear {
             viewModel.loadMore()
         }
     }
-
 }
 
 struct ContentView_Previews: PreviewProvider {

@@ -24,6 +24,8 @@ protocol ViewModel {
 }
 
 class HomeViewModel: ViewModel, ObservableObject {
+    private let lookaheadMinimum = 5
+
     @Published var eventsList = [EventModel]()
     @Published var isLoading: Bool = false
 
@@ -33,6 +35,10 @@ class HomeViewModel: ViewModel, ObservableObject {
     var hasEnded: Bool = false
 
     var error: String = ""
+
+    init() {
+        loadMore()
+    }
 
     private func getEvents(_ page: Int = 1) {
         marvelService.fetchEvents(page: page) { [weak self] result in
@@ -50,6 +56,12 @@ class HomeViewModel: ViewModel, ObservableObject {
                 self?.error = "No content"
                 debugPrint("Um erro aconteceu: \(String(describing: self?.error))")
             }
+        }
+    }
+
+    func loadMoreIfNeeded(currentIndex index: Int) {
+        if (eventsList.count - index) <= lookaheadMinimum {
+            loadMore()
         }
     }
 
