@@ -4,8 +4,14 @@ import CoreData
 struct HomeView: View {
     @Environment(\.managedObjectContext) private var viewContext
 
+    @StateObject var viewModel = HomeViewModel()
+
     var body: some View {
-        Text("Hello, marvel")
+        NavigationView {
+            ScrollView {
+                Text("Aqui entram as lazy stacks")
+            }
+        }
     }
 
 }
