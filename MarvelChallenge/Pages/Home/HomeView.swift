@@ -12,6 +12,9 @@ struct HomeView: View {
                 Text("Aqui entram as lazy stacks")
             }
         }
+        .onAppear {
+            viewModel.loadMore()
+        }
     }
 
 }

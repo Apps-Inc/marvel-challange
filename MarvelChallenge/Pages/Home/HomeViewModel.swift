@@ -21,43 +21,46 @@ protocol ViewModel {
     // pagina atual
     var currentPage: Int { get set }
 
-    // quantas paginas existem
-    var pageTotal: Int {get set}
-
 }
 
 class HomeViewModel: ViewModel, ObservableObject {
     @Published var eventsList = [EventModel]()
+    @Published var isLoading: Bool = false
 
     internal var marvelService: Service = MarvelService()
     var currentPage: Int = 0
-    var isLoading: Bool = false
 
     var hasEnded: Bool = false
 
     var error: String = ""
 
-    // valor padrao, depois setamos pro valor correto
-    var pageTotal: Int = 1
-
     private func getEvents(_ page: Int = 1) {
-        marvelService.fetchEvents(page: page) { result in
+        marvelService.fetchEvents(page: page) { [weak self] result in
             switch result {
             case .success(let data):
-                self.isLoading = false
-                self.eventsList.append(contentsOf: data.data?.results ?? [])
-
+                self?.isLoading = false
+                self?.eventsList.append(contentsOf: data.data?.results ?? [])
+                if data.data?.total == self?.eventsList.count {
+                    self?.hasEnded = true
+                }
+            case .error(let erro):
+                self?.error = erro.localizedDescription
+                debugPrint("Um erro aconteceu: \(String(describing: self?.error))")
             default:
-                break
+                self?.error = "No content"
+                debugPrint("Um erro aconteceu: \(String(describing: self?.error))")
             }
         }
     }
 
     func loadMore() {
-        if currentPage == pageTotal {
-            hasEnded = true
+        guard !isLoading  else {
+            debugPrint("Fazendo chamada durante carregamento/ request acabou")
             return
-        } else if isLoading {
+        }
+
+        guard !hasEnded else {
+            debugPrint("Fazendo request e dados acabaram")
             return
         }
 
