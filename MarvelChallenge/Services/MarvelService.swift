@@ -15,7 +15,8 @@ protocol MarvelService {
     typealias EventsHandler = (EventsType) -> Void
 
     func fetchEvents(page: Int,
-                     completionHandler: @escaping EventsHandler)
+                     completionHandler: @escaping EventsHandler,
+                     errorHandler: ((Error) -> Void)?)
 }
 
 class MarvelServiceImp: MarvelService {
@@ -33,21 +34,20 @@ class MarvelServiceImp: MarvelService {
     }()
 
 // MARK: - public func
-    func fetchEvents(page: Int = 1, completionHandler: @escaping EventsHandler) {
+    func fetchEvents(page: Int = 1, completionHandler: @escaping EventsHandler, errorHandler: ((Error) -> Void)? = nil) {
         let params = ["limit": limit, "offset": (page - 1) * limit]
 
         fetchApi(endpoint: "/events",
                  parameters: params,
                  type: EventsType.self) { response in
 
-            if let err = response.error {
-                print("Request Error!")
-                print(err)
+            if let error = response.error {
+                errorHandler?(ApiError.requestError(error))
                 return
             }
 
             guard let data = response.value else {
-                print("null data")
+                errorHandler?(ApiError.noContent)
                 return
             }
 
@@ -83,4 +83,9 @@ class MarvelServiceImp: MarvelService {
             .map { String(format: "%02hhx", $0) }
             .joined()
     }
+}
+
+enum ApiError: Error {
+    case requestError(Error)
+    case noContent
 }
