@@ -5,7 +5,6 @@
 // https://stackoverflow.com/questions/57842214/how-to-get-row-index-in-swiftui-list
 //
 
-
 // This is taken from the Release Notes, with a typo correction, marked below
 struct IndexedCollection<Base: RandomAccessCollection>: RandomAccessCollection {
     typealias Index = Base.Index
@@ -18,16 +17,16 @@ struct IndexedCollection<Base: RandomAccessCollection>: RandomAccessCollection {
    // corrected typo: base.endIndex, instead of base.startIndex
     var endIndex: Index { base.endIndex }
 
-    func index(after i: Index) -> Index {
-        base.index(after: i)
+    func index(after index: Index) -> Index {
+        base.index(after: index)
     }
 
-    func index(before i: Index) -> Index {
-        base.index(before: i)
+    func index(before index: Index) -> Index {
+        base.index(before: index)
     }
 
-    func index(_ i: Index, offsetBy distance: Int) -> Index {
-        base.index(i, offsetBy: distance)
+    func index(_ index: Index, offsetBy distance: Int) -> Index {
+        base.index(index, offsetBy: distance)
     }
 
     subscript(position: Index) -> Element {
