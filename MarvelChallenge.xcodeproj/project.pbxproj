@@ -18,7 +18,7 @@
 		0E3CE52727735E3400B02CC2 /* MarvelChallengeUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3CE52627735E3400B02CC2 /* MarvelChallengeUITestsLaunchTests.swift */; };
 		0E3CE53727735F3800B02CC2 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 0E3CE53627735F3800B02CC2 /* Kingfisher */; };
 		0E3CE53A27735F4000B02CC2 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 0E3CE53927735F4000B02CC2 /* Alamofire */; };
-		4C770E3B277375FD00BF6218 /* MarvelService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C770E3A277375FD00BF6218 /* MarvelService.swift */; };
+		4C770E3B277375FD00BF6218 /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C770E3A277375FD00BF6218 /* Service.swift */; };
 		81AA524527736ADC0031C94C /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AA524427736ADC0031C94C /* Event.swift */; };
 		81AA524827736E370031C94C /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AA524727736E370031C94C /* HomeViewModel.swift */; };
 		81AA524B27736F860031C94C /* DetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AA524A27736F860031C94C /* DetailViewModel.swift */; };
@@ -56,7 +56,7 @@
 		0E3CE52027735E3400B02CC2 /* MarvelChallengeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MarvelChallengeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E3CE52427735E3400B02CC2 /* MarvelChallengeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarvelChallengeUITests.swift; sourceTree = "<group>"; };
 		0E3CE52627735E3400B02CC2 /* MarvelChallengeUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarvelChallengeUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		4C770E3A277375FD00BF6218 /* MarvelService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarvelService.swift; sourceTree = "<group>"; };
+		4C770E3A277375FD00BF6218 /* Service.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
 		81AA524427736ADC0031C94C /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		81AA524727736E370031C94C /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		81AA524A27736F860031C94C /* DetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewModel.swift; sourceTree = "<group>"; };
@@ -163,7 +163,7 @@
 		4C770E39277375FD00BF6218 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				4C770E3A277375FD00BF6218 /* MarvelService.swift */,
+				4C770E3A277375FD00BF6218 /* Service.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -363,7 +363,7 @@
 				81AA524D27736F9C0031C94C /* DetailView.swift in Sources */,
 				0E3CE50527735E3200B02CC2 /* MarvelChallengeApp.swift in Sources */,
 				81AA524527736ADC0031C94C /* Event.swift in Sources */,
-				4C770E3B277375FD00BF6218 /* MarvelService.swift in Sources */,
+				4C770E3B277375FD00BF6218 /* Service.swift in Sources */,
 				81AA524F27736FDB0031C94C /* HomeViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

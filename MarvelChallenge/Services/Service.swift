@@ -10,12 +10,12 @@ import CryptoKit
 import Alamofire
 
 enum ServiceReturn {
-    case success(MarvelService.EventsType)
+    case success(Service.EventsType)
     case noContent
     case error(Error)
 }
 
-protocol MarvelService {
+protocol Service {
 // MARK: - EventsRequest
     typealias EventsType = EventDataWrapperModel
     typealias EventsHandler = (ServiceReturn) -> Void
@@ -23,7 +23,7 @@ protocol MarvelService {
     func fetchEvents(page: Int, completionHandler: @escaping EventsHandler)
 }
 
-class MarvelServiceImp: MarvelService {
+class MarvelService: Service {
 
     private let limit = 20
     private let baseUrl = "https://gateway.marvel.com/v1/public"

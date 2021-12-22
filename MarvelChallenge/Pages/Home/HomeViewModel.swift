@@ -10,7 +10,7 @@ import Foundation
 protocol ViewModel {
     func loadMore()
 
-    var marvelService: MarvelService { get }
+    var marvelService: Service { get }
     var isLoading: Bool { get set}
     // ver se chegou no pagina final pra parar de fazer request
     var hasEnded: Bool { get set }
@@ -29,7 +29,7 @@ protocol ViewModel {
 class HomeViewModel: ViewModel, ObservableObject {
     @Published var eventsList = [EventModel]()
 
-    internal var marvelService: MarvelService = MarvelServiceImp()
+    internal var marvelService: Service = MarvelService()
     var currentPage: Int = 0
     var isLoading: Bool = false
 
