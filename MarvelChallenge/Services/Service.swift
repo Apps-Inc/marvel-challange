@@ -23,6 +23,12 @@ protocol Service {
     func fetchEvents(page: Int, completionHandler: @escaping EventsHandler)
 }
 
+private enum DateDecodingError: Error {
+    case noValue
+    case unstringable
+    case unknownDateFormat(String)
+}
+
 class MarvelService: Service {
 
     private let limit = 20
@@ -31,10 +37,35 @@ class MarvelService: Service {
     private let privateKey = "c67104a683dbfa5ef8e17114584ade00fed35f76"
 
     private let jsonDecoder: JSONDecoder = {
-        let bodyDecoder = JSONDecoder()
-        bodyDecoder.keyDecodingStrategy = .convertFromSnakeCase
-        bodyDecoder.dateDecodingStrategy = .iso8601
-        return bodyDecoder
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .custom { decoder in
+            guard let container = try? decoder.singleValueContainer() else {
+                throw DateDecodingError.noValue
+            }
+
+            guard let dateString = try? container.decode(String.self) else {
+                throw DateDecodingError.unstringable
+            }
+
+            let formatter = DateFormatter()
+
+            // Você acha que a API retorna datas em formato consistente? Eu
+            // também achava.
+            for dateFormat in [
+                "yyyy-MM-dd'T'HH:mm:ssZZZZZ",
+                "yyyy-MM-dd HH:mm:ss"
+            ] {
+                formatter.dateFormat = dateFormat
+
+                if let date = formatter.date(from: dateString) {
+                    return date
+                }
+            }
+
+            throw DateDecodingError.unknownDateFormat(dateString)
+        }
+
+        return decoder
     }()
 
     // MARK: - public func
