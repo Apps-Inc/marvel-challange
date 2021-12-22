@@ -27,9 +27,7 @@ protocol ViewModel {
 }
 
 class HomeViewModel: ViewModel, ObservableObject {
-
-    @Published var mainRequest: EventsMainRequest?
-    @Published var eventsList = [Event]()
+    @Published var eventsList = [EventModel]()
 
     internal var marvelService: MarvelService = MarvelServiceImp()
     var currentPage: Int = 0
@@ -42,25 +40,20 @@ class HomeViewModel: ViewModel, ObservableObject {
     // valor padrao, depois setamos pro valor correto
     var pageTotal: Int = 1
 
-    private func getEvents(_ page: Int? = 1) {
+    private func getEvents(_ page: Int = 1) {
+        marvelService.fetchEvents(page: page) { result in
+            switch result {
+            case .success(let data):
+                self.isLoading = false
+                self.eventsList.append(contentsOf: data.data?.results ?? [])
 
-        marvelService.fetchEvents(limit: 10, offset: 0) { result in
-            /*
-             guard let result = result else {
-             self.error = "Erro na request"
-             return
-             }
-             */
-
-            self.isLoading = false
-
-            self.mainRequest = result
-            self.eventsList.append(contentsOf: result.data.results)
+            default:
+                break
+            }
         }
-
     }
-    func loadMore() {
 
+    func loadMore() {
         if currentPage == pageTotal {
             hasEnded = true
             return

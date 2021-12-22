@@ -9,16 +9,18 @@ import Foundation
 import CryptoKit
 import Alamofire
 
+enum ServiceReturn {
+    case success(MarvelService.EventsType)
+    case noContent
+    case error(Error)
+}
+
 protocol MarvelService {
 // MARK: - EventsRequest
     typealias EventsType = EventDataWrapperModel
-    typealias EventsHandler = (EventsType) -> Void
+    typealias EventsHandler = (ServiceReturn) -> Void
 
-    func fetchEvents(
-        page: Int,
-        completionHandler: @escaping EventsHandler,
-        errorHandler: ((Error) -> Void)?
-    )
+    func fetchEvents(page: Int, completionHandler: @escaping EventsHandler)
 }
 
 class MarvelServiceImp: MarvelService {
@@ -38,35 +40,35 @@ class MarvelServiceImp: MarvelService {
     // MARK: - public func
     func fetchEvents(
         page: Int = 1,
-        completionHandler: @escaping EventsHandler,
-        errorHandler: ((Error) -> Void)? = nil
+        completionHandler: @escaping EventsHandler
     ) {
         let params = ["limit": limit, "offset": (page - 1) * limit]
 
-        fetchApi(endpoint: "/events",
-                 parameters: params,
-                 type: EventsType.self) { response in
-
+        fetchApi(
+            endpoint: "/events",
+            parameters: params,
+            type: EventsType.self
+        ) { response in
             if let error = response.error {
-                errorHandler?(ApiError.requestError(error))
+                completionHandler(.error(error))
                 return
             }
 
             guard let data = response.value else {
-                errorHandler?(ApiError.noContent)
+                completionHandler(.noContent)
                 return
             }
 
-            completionHandler(data)
+            completionHandler(.success(data))
         }
     }
 
 // MARK: - private func
     private func fetchApi<T>(
-                        endpoint: String,
-                        parameters: [String: Any] = [:],
-                        type: T.Type = T.self,
-                        completionHandler: @escaping (AFDataResponse<T>) -> Void
+        endpoint: String,
+        parameters: [String: Any] = [:],
+        type: T.Type = T.self,
+        completionHandler: @escaping (AFDataResponse<T>) -> Void
     ) where T: Decodable {
         var parameters = parameters
         let timeStamp = String(Date().hashValue)
@@ -89,9 +91,4 @@ class MarvelServiceImp: MarvelService {
             .map { String(format: "%02hhx", $0) }
             .joined()
     }
-}
-
-enum ApiError: Error {
-    case requestError(Error)
-    case noContent
 }
