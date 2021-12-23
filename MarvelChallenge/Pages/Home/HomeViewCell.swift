@@ -8,7 +8,6 @@
 import SwiftUI
 import Kingfisher
 
-
 struct CellInLineView: View {
      let event: EventModel
 
