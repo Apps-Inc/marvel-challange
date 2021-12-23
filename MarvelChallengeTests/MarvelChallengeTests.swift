@@ -1,5 +1,8 @@
 import XCTest
 @testable import MarvelChallenge
+import Alamofire
+
+var systemUnderTest: MarvelService!
 
 class MarvelChallengeTests: XCTestCase {
 
@@ -12,12 +15,14 @@ class MarvelChallengeTests: XCTestCase {
         systemUnderTest = nil
         try super.tearDownWithError()
     }
-
+  
     func testApiCall() throws {
+
         let promise = expectation(description: "Return succesful and not empty ")
         systemUnderTest.fetchEvents(page: 1) { result in
             switch result {
             case .success(let mainRequest):
+
                 XCTAssertTrue((mainRequest.data?.total)! > 0, "Request total should be > 0")
                 promise.fulfill()
             case .error(let error):
@@ -45,5 +50,4 @@ class MarvelChallengeTests: XCTestCase {
         }
         wait(for: [promise], timeout: 5)
     }
-
 }
