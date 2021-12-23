@@ -20,6 +20,7 @@
 		0E3CE53A27735F4000B02CC2 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 0E3CE53927735F4000B02CC2 /* Alamofire */; };
 		4C770E3B277375FD00BF6218 /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C770E3A277375FD00BF6218 /* Service.swift */; };
 		4C770E412773D87E00BF6218 /* RandomAccessCollection+Indexed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C770E402773D87E00BF6218 /* RandomAccessCollection+Indexed.swift */; };
+		8167C90427749A8600548AA0 /* Toolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8167C90327749A8600548AA0 /* Toolbar.swift */; };
 		81AA524527736ADC0031C94C /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AA524427736ADC0031C94C /* Event.swift */; };
 		81AA524827736E370031C94C /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AA524727736E370031C94C /* HomeViewModel.swift */; };
 		81AA524B27736F860031C94C /* DetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AA524A27736F860031C94C /* DetailViewModel.swift */; };
@@ -59,6 +60,7 @@
 		0E3CE52627735E3400B02CC2 /* MarvelChallengeUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarvelChallengeUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		4C770E3A277375FD00BF6218 /* Service.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
 		4C770E402773D87E00BF6218 /* RandomAccessCollection+Indexed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RandomAccessCollection+Indexed.swift"; sourceTree = "<group>"; };
+		8167C90327749A8600548AA0 /* Toolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toolbar.swift; sourceTree = "<group>"; };
 		81AA524427736ADC0031C94C /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		81AA524727736E370031C94C /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		81AA524A27736F860031C94C /* DetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewModel.swift; sourceTree = "<group>"; };
@@ -193,6 +195,7 @@
 				0E3CE50627735E3200B02CC2 /* HomeView.swift */,
 				81AA524727736E370031C94C /* HomeViewModel.swift */,
 				81AA524E27736FDB0031C94C /* HomeViewCell.swift */,
+				8167C90327749A8600548AA0 /* Toolbar.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -369,6 +372,7 @@
 				0E3CE50E27735E3400B02CC2 /* Persistence.swift in Sources */,
 				81AA524827736E370031C94C /* HomeViewModel.swift in Sources */,
 				0E3CE50727735E3200B02CC2 /* HomeView.swift in Sources */,
+				8167C90427749A8600548AA0 /* Toolbar.swift in Sources */,
 				81AA524B27736F860031C94C /* DetailViewModel.swift in Sources */,
 				0E3CE51127735E3400B02CC2 /* MarvelChallenge.xcdatamodeld in Sources */,
 				81AA524D27736F9C0031C94C /* DetailView.swift in Sources */,

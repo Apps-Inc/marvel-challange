@@ -6,7 +6,11 @@ struct HomeView: View {
 
     @StateObject var viewModel = HomeViewModel()
 
-    @State var rowNumber = 1
+    @StateObject var toolbarViewModel = ToolbarViewModel()
+
+    var rowNumber: Int {
+       return toolbarViewModel.rowCount
+    }
 
     var columns: [GridItem] {
         var tmp = [GridItem]()
@@ -37,31 +41,14 @@ struct HomeView: View {
                     }
                 }
                 if viewModel.isLoading {
-                    ProgressView()
+                    ProgressView().scaleEffect(2)
 
                         .padding()
                 }
 
             }
             .toolbar(content: {
-                ToolbarItemGroup(placement: .navigationBarLeading) {
-                    Text("Eventos")
-                }
-                ToolbarItemGroup(placement: .navigationBarTrailing) {
-                    if rowNumber == 1 {
-                        Button {
-                            rowNumber = 2
-                        } label: {
-                            Image(systemName: "square.grid.2x2")
-                        }
-                    } else {
-                        Button {
-                            rowNumber = 1
-                        } label: {
-                            Image(systemName: "list.triangle")
-                        }
-                    }
-                }
+                ToolbarItens(viewModel: toolbarViewModel)
             })
             .navigationBarTitleDisplayMode(.inline)
         }
